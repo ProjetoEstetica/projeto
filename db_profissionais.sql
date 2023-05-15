@@ -10,7 +10,6 @@ create table cadastro_profissionais(
 );
 
 create table endereco_profissionais(
-	id int not null auto_increment primary key,
 	cep varchar(50),
 	rua varchar(300),
 	numero int,

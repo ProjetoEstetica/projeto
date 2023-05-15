@@ -1,5 +1,5 @@
-use projeto_estetica;
-
+create database profissionais;
+use profissionais;
 
 create table cadastro_profissionais(
 	nome_completo varchar(300),

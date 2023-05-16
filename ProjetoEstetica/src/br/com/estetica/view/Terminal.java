@@ -28,6 +28,7 @@ public class Terminal {
 		exec.setNumero(num);
 		
 		
+		
 
 	}
 

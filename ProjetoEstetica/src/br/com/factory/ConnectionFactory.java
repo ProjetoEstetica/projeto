@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 public class ConnectionFactory {
 	
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "root";
+	private static final String PASSWORD = "";
 	
 	private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/clientes";
 	

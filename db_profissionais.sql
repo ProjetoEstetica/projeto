@@ -16,5 +16,3 @@ create table cadastro_profissionais(
 	estado char(3)
 );
 
-
-

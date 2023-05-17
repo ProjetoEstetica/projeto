@@ -1,7 +1,26 @@
 package br.com.estetica.model;
 
+import java.util.Date;
+
 public class InfoClients {
 	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado;
+	private Date aniversario;
+	public Date getAniversario() {
+		return aniversario;
+	}
+
+	public void setAniversario(Date aniversario) {
+		this.aniversario = aniversario;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	private int num;
 	
 	public String getNomeCompleto() {

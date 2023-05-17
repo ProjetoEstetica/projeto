@@ -3,7 +3,6 @@ package br.com.clientesDAO;
 import java.sql.Connection;
 import java.sql.Date;
 
-import javax.imageio.plugins.tiff.ExifParentTIFFTagSet;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -15,9 +14,7 @@ public class ClientesDAO {
 	
 	public void save(InfoClients client) {
 		String insert = 
-		"insert into cadastro_clientes("
-		+ "nome_completo, apelido, celular, aniversario, cep, rua, numero, bairro, cidade, estado"
-		+ " values(?,?,?,?,?,?,?,?,?,?)";
+		"insert into cadastro_clientes(nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado) values(?,?,?,?,?,?,?,?,?,?,?)";
 		
 		Connection conn = null;
 		
@@ -33,16 +30,35 @@ public class ClientesDAO {
 			pstm.setString(1, client.getNomeCompleto());
 			pstm.setString(2, client.getApelido());
 			pstm.setString(3, client.getCelular());
-			pstm.setDate(4, (Date) client.getAniversario());
+			pstm.setDate(4, new Date(client.getAniversario().getTime()));
 			pstm.setString(5, client.getCep());
 			pstm.setString(6, client.getRua());
 			pstm.setInt(7, client.getNum());
-			pstm.setString(8, client.getBairro());
-			pstm.setString(9, client.getCidade());
-			pstm.setString(10, client.getEstado());
+			pstm.setString(8, client.getComp());
+			pstm.setString(9, client.getBairro());
+			pstm.setString(10, client.getCidade());
+			pstm.setString(11, client.getEstado());
 			
+			
+			//executando 
+			
+			pstm.execute();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			
+		} finally {
+			
+			// finalizando o cursor
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				else if(conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 public class InfoClients {
 	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado, comp;
 	private int num;
+	private Date aniversario;
 	
 	public String getComp() {
 		return comp;
@@ -14,9 +15,6 @@ public class InfoClients {
 		this.comp = comp;
 	}
 
-	private Date aniversario;
-
-	
 	
 	public Date getAniversario() {
 		return aniversario;

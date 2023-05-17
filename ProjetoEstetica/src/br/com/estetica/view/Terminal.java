@@ -14,9 +14,10 @@ public class Terminal {
 		String celular = JOptionPane.showInputDialog("digite o celular");
 		String cep = JOptionPane.showInputDialog("digite o cep");
 		String rua = JOptionPane.showInputDialog("digite a rua");
-		int num = Integer.parseInt(JOptionPane.showInputDialog("digite o telefonw"));
+		String comp = JOptionPane.showInputDialog("digite o complemento");
+		int num = Integer.parseInt(JOptionPane.showInputDialog("digite o numero"));
 		String cidade = JOptionPane.showInputDialog("digite a cidade");
-		String estado = JOptionPane.showInputDialog("digite o estadp");
+		String estado = JOptionPane.showInputDialog("digite o estado");
 		
 		exec.setNomeCompleto(nomeCompleto);
 		exec.setApelido(apelido);
@@ -25,7 +26,7 @@ public class Terminal {
 		exec.setRua(rua);
 		exec.setCidade(cidade);
 		exec.setEstado(estado);
-		exec.setNumero(num);
+		exec.setNum(num);
 		
 		
 		

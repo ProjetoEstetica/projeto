@@ -3,8 +3,19 @@ package br.com.estetica.model;
 import java.util.Date;
 
 public class InfoClients {
-	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado;
+	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado, comp;
+	public String getComp() {
+		return comp;
+	}
+
+	public void setComp(String comp) {
+		this.comp = comp;
+	}
+
 	private Date aniversario;
+	private int num;
+	
+	
 	public Date getAniversario() {
 		return aniversario;
 	}
@@ -21,8 +32,6 @@ public class InfoClients {
 		this.num = num;
 	}
 
-	private int num;
-	
 	public String getNomeCompleto() {
 		return nomeCompleto;
 	}
@@ -61,14 +70,6 @@ public class InfoClients {
 
 	public void setRua(String rua) {
 		this.rua = rua;
-	}
-
-	public String getNumero() {
-		return Integer.toString(num);
-	}
-
-	public void setNumero(int numero) {
-		this.num = numero;
 	}
 
 	public String getBairro() {

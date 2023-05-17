@@ -1,6 +1,6 @@
-package br.com.estetica.classes;
+package br.com.estetica.model;
 
-public class Comandos {
+public class InfoClients {
 	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado;
 	private int num;
 	

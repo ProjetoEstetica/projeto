@@ -2,12 +2,12 @@ package br.com.estetica.view;
 
 import javax.swing.JOptionPane;
 
-import br.com.estetica.classes.Comandos;
+import br.com.estetica.model.InfoClients;
 
 public class Terminal {
 
 	public static void main(String[] args) {
-		Comandos exec = new Comandos();
+		InfoClients exec = new InfoClients();
 		
 		String nomeCompleto = JOptionPane.showInputDialog("Digite o nome completo");
 		String apelido = JOptionPane.showInputDialog("digite o apelido");

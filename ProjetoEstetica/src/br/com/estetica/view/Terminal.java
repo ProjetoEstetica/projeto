@@ -41,7 +41,7 @@ public class Terminal {
 		// visualizacao de todos registros
 		
 		for(InfoClients c : clients.getClientes()) {
-			JOptionPane.showMessageDialog(null, "Cliente: " +c.getNomeCompleto());
+			JOptionPane.showMessageDialog(null, "Cliente: " + c.getNomeCompleto());
 		}
 		
 		

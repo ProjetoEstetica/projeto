@@ -15,6 +15,7 @@ public class Terminal {
 		
 		String nomeCompleto = JOptionPane.showInputDialog("Digite o nome completo");
 		String apelido = JOptionPane.showInputDialog("digite o apelido");
+		String aniversario = JOptionPane.showInputDialog("digite o aniversario");
 		String celular = JOptionPane.showInputDialog("digite o celular");
 		String cep = JOptionPane.showInputDialog("digite o cep");
 		String rua = JOptionPane.showInputDialog("digite a rua");
@@ -34,7 +35,7 @@ public class Terminal {
 		exec.setCidade(cidade);
 		exec.setEstado(estado);
 		exec.setNum(num);
-		exec.setAniversario(new Date());
+		exec.setAniversario(aniversario);
 
 		clients.save(exec);
 

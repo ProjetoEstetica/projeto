@@ -30,7 +30,7 @@ public class ClientesDAO {
 			pstm.setString(1, client.getNomeCompleto());
 			pstm.setString(2, client.getApelido());
 			pstm.setString(3, client.getCelular());
-			pstm.setDate(4, new Date(client.getAniversario().getTime()));
+			pstm.setString(4, client.getAniversario());
 			pstm.setString(5, client.getCep());
 			pstm.setString(6, client.getRua());
 			pstm.setInt(7, client.getNum());

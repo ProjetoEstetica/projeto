@@ -1,11 +1,10 @@
 package br.com.estetica.model;
 
-import java.util.Date;
 
 public class InfoClients {
 	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado, comp;
 	private int num;
-	private Date aniversario;
+	private String aniversario;
 	
 	public String getComp() {
 		return comp;
@@ -16,11 +15,11 @@ public class InfoClients {
 	}
 
 	
-	public Date getAniversario() {
+	public String getAniversario() {
 		return aniversario;
 	}
 
-	public void setAniversario(Date aniversario) {
+	public void setAniversario(String aniversario) {
 		this.aniversario = aniversario;
 	}
 

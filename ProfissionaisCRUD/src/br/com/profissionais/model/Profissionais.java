@@ -1,15 +1,11 @@
 package br.com.profissionais.model;
 
-import java.util.Date;
-
 public class Profissionais {
-
-	private int id;
+	
 	private String nomeCompleto;
 	private String apelido;
 	private int celular;
-	private Date aniversario;
-
+	private String aniversario;
 	private String cep;
 	private String rua;
 	private int numero;
@@ -17,14 +13,6 @@ public class Profissionais {
 	private String bairro;
 	private String cidade;
 	private String estado;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getNomeCompleto(){
 		return nomeCompleto;
@@ -50,11 +38,11 @@ public class Profissionais {
 		this.celular = celular;
 	}
 
-	public Date getAniversario() {
+	public String getAniversario() {
 		return aniversario;
 	}
 
-	public void setAniversario(Date aniversario) {
+	public void setAniversario(String aniversario) {
 		this.aniversario = aniversario;
 	}
 

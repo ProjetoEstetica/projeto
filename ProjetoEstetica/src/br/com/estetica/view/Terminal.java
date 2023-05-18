@@ -1,7 +1,5 @@
 package br.com.estetica.view;
 
-import java.util.Date;
-
 import javax.swing.JOptionPane;
 
 import br.com.clientesDAO.ClientesDAO;
@@ -38,6 +36,15 @@ public class Terminal {
 		exec.setAniversario(aniversario);
 
 		clients.save(exec);
+		
+		
+		// visualizacao de todos registros
+		
+		for(InfoClients c : clients.getClientes()) {
+			JOptionPane.showMessageDialog(null, "Cliente: " +c.getNomeCompleto());
+		}
+		
+		
 
 	}
 

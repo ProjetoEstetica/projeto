@@ -1,10 +1,12 @@
 package br.com.clientesDAO;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -61,8 +63,7 @@ public class ClientesDAO {
 		}
 	}
 
-	public List<InfoClients> getClientes()
-	{
+	public List<InfoClients> getClientes() {
 		String sql = "select * from cadastro_clientes";
 
 		List<InfoClients> cliente = new ArrayList<InfoClients>();
@@ -71,18 +72,18 @@ public class ClientesDAO {
 		PreparedStatement pstm = null;
 		// classe para recuperar os dados do banco
 		ResultSet rset = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			rset = pstm.executeQuery();
-			
+
 			while (rset.next()) {
 				InfoClients clientesInfo = new InfoClients();
-				
-				//recuperar o nome
+
+				// recuperar o nome
 				clientesInfo.setNomeCompleto(rset.getString("nome_completo"));
-				//apelido
+				// apelido
 				clientesInfo.setApelido(rset.getString("apelido"));
 				clientesInfo.setCelular(rset.getString("celular"));
 				clientesInfo.setAniversario(rset.getString("aniversario"));
@@ -93,8 +94,8 @@ public class ClientesDAO {
 				clientesInfo.setBairro(rset.getString("bairro"));
 				clientesInfo.setCidade(rset.getString("cidade"));
 				clientesInfo.setEstado(rset.getString("estado"));
-				
-				cliente.add(clientesInfo);			
+
+				cliente.add(clientesInfo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,7 +110,48 @@ public class ClientesDAO {
 				e2.printStackTrace();
 			}
 		}
-		
+
 		return cliente;
+	}
+
+	public void update(String colunaUpdate, String novoValor, String colunaWhere, String valorWhere) {
+		String sql = "UPDATE cadastro_clientes" + " SET " + colunaUpdate + " = '" + novoValor + "'" + " WHERE "
+				+ colunaWhere + " = '" + valorWhere + "'";
+				
+		try {
+			Connection conn = ConnectionFactory.createConnectionToMySQL();
+			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public void delete(String nome) {
+		String sql = "delete from cadastro_clientes where nome_completo = ?";
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, nome);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				} else if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 }

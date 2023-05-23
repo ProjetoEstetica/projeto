@@ -11,6 +11,7 @@ public class Terminal {
 		InfoClients exec = new InfoClients();
 		ClientesDAO clients = new ClientesDAO();
 		
+		/*
 		String nomeCompleto = JOptionPane.showInputDialog("Digite o nome completo");
 		String apelido = JOptionPane.showInputDialog("digite o apelido");
 		String aniversario = JOptionPane.showInputDialog("digite o aniversario");
@@ -43,6 +44,15 @@ public class Terminal {
 		for(InfoClients c : clients.getClientes()) {
 			JOptionPane.showMessageDialog(null, "Cliente: " + c.getNomeCompleto());
 		}
+		
+		*/
+		
+		// alterar dados
+		String campAleterar = "rua";
+		String rua1 = "rua acbc";
+		String respWhere = "celular";
+		String cel = "951317822";
+		clients.update(campAleterar, rua1, respWhere, cel);
 		
 		
 

@@ -47,13 +47,19 @@ public class Terminal {
 		
 		*/
 		
+		
+		/*
 		// alterar dados
 		String campAleterar = "rua";
 		String rua1 = "rua acbc";
 		String respWhere = "celular";
 		String cel = "951317822";
 		clients.update(campAleterar, rua1, respWhere, cel);
+		*/
 		
+		
+		// deletar dados
+		clients.delete("celular","9877654112");
 		
 
 	}

@@ -130,28 +130,16 @@ public class ClientesDAO {
 		
 	}
 
-	public void delete(String nome) {
-		String sql = "delete from cadastro_clientes where nome_completo = ?";
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
+	public void delete(String colunaWhere, String valorWhere) {
+		String sql = "DELETE FROM  cadastro_clientes " + " WHERE " + colunaWhere + " = '" + valorWhere + "'";
 
 		try {
-			conn = ConnectionFactory.createConnectionToMySQL();
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, nome);
+			Connection conn = ConnectionFactory.createConnectionToMySQL();
+			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.execute();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				if (pstm != null) {
-					pstm.close();
-				} else if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 	}
 }

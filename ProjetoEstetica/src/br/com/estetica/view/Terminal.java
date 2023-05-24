@@ -42,13 +42,16 @@ public class Terminal {
 			exec.setAniversario(aniversario);
 
 			clients.save(exec);
+			break;
 
 		}
 		case 2: {
 			// visualizacao de todos registros
-			for (InfoClients c : clients.getClientes()) {
+			String celular = JOptionPane.showInputDialog("digite o celular");
+			for (InfoClients c : clients.getClientes(celular)) {
 				JOptionPane.showMessageDialog(null, "Cliente: " + c.getNomeCompleto());
 			}
+			break;
 
 		}
 

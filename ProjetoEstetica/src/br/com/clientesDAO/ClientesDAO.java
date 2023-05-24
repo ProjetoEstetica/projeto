@@ -63,23 +63,24 @@ public class ClientesDAO {
 		}
 	}
 
-	public List<InfoClients> getClientes() {
-		String sql = "select * from cadastro_clientes";
-
-		List<InfoClients> cliente = new ArrayList<InfoClients>();
-
+	public List<InfoClients> getClientes( String valor) {
+        String sql = "SELECT * FROM cadastro_clientes WHERE celular = ?";
+        List<InfoClients> cliente = new ArrayList<InfoClients>();
+        
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		// classe para recuperar os dados do banco
 		ResultSet rset = null;
-
-		try {
+		
+		try  {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			rset = pstm.executeQuery();
+            pstm = (PreparedStatement) conn.prepareStatement(sql);
+            
+            pstm.setString(1, valor);
 
-			while (rset.next()) {
-				InfoClients clientesInfo = new InfoClients();
+            rset = pstm.executeQuery();
+
+            while (rset.next()) {
+            	InfoClients clientesInfo = new InfoClients();
 
 				// recuperar o nome
 				clientesInfo.setNomeCompleto(rset.getString("nome_completo"));
@@ -96,28 +97,25 @@ public class ClientesDAO {
 				clientesInfo.setEstado(rset.getString("estado"));
 
 				cliente.add(clientesInfo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstm != null) {
-					pstm.close();
-				} else if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
+            }
 
+            rset.close();
+            pstm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return cliente;
 	}
+		
+	
 
 	public void update(String colunaUpdate, String novoValor, String colunaWhere, String valorWhere) {
 		String sql = "UPDATE cadastro_clientes" + " SET " + colunaUpdate + " = '" + novoValor + "'" + " WHERE "
 				+ colunaWhere + " = '" + valorWhere + "'";
-				
+
 		try {
 			Connection conn = ConnectionFactory.createConnectionToMySQL();
 			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
@@ -127,7 +125,6 @@ public class ClientesDAO {
 			e.printStackTrace();
 		}
 
-		
 	}
 
 	public void delete(String colunaWhere, String valorWhere) {

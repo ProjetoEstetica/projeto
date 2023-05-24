@@ -2,18 +2,9 @@ package br.com.profissionais.model;
 
 public class Profissionais {
 	
-	private String nomeCompleto;
-	private String apelido;
-	private int celular;
-	private String aniversario;
-	private String cep;
-	private String rua;
+	private String nomeCompleto, apelido, aniversario, cep, rua, comp, bairro, cidade, estado, celular;
 	private int numero;
-	private String comp;
-	private String bairro;
-	private String cidade;
-	private String estado;
-
+	
 	public String getNomeCompleto(){
 		return nomeCompleto;
 	}
@@ -30,11 +21,11 @@ public class Profissionais {
 		this.apelido = apelido;
 	}
 
-	public int getCelular() {
+	public String getCelular() {
 		return celular;
 	}
 
-	public void setCelular(int celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 

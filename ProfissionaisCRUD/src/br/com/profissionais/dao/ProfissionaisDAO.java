@@ -2,6 +2,7 @@ package br.com.profissionais.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ProfissionaisDAO {
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, profissional.getNomeCompleto());
 			pstm.setString(2, profissional.getApelido());
-			pstm.setInt(3, profissional.getCelular());
+			pstm.setString(3, profissional.getCelular());
 			pstm.setString(4, profissional.getAniversario());
 			pstm.setString(5, profissional.getCep());
 			pstm.setString(6, profissional.getRua());
@@ -54,11 +55,9 @@ public class ProfissionaisDAO {
 			}
 		}
 	}
-
 	
-	public List<Profissionais> getProfissionais(){
-		
-		String sql = "SELECT * FROM cadastro_profissionais";
+	public List<Profissionais> getProfissionais(String valor){
+		String sql = "SELECT * FROM cadastro_profissionais WHERE nome_completo = ?";
 		
 		List<Profissionais> profissionais = new ArrayList<Profissionais>();
 		
@@ -72,6 +71,8 @@ public class ProfissionaisDAO {
 			
 			pstm = (PreparedStatement)conn.prepareStatement(sql);
 			
+			pstm.setString(1, valor);
+			
 			rset = pstm.executeQuery();
 			
 			
@@ -80,7 +81,7 @@ public class ProfissionaisDAO {
 				
 				profissional.setNomeCompleto(rset.getString("nome_completo"));
 				profissional.setApelido(rset.getString("apelido"));
-				profissional.setCelular(rset.getInt("celular"));
+				profissional.setCelular(rset.getString("celular"));
 				profissional.setAniversario(rset.getString("aniversario"));
 				profissional.setCep(rset.getString("cep"));
 				profissional.setRua(rset.getString("rua"));
@@ -92,27 +93,46 @@ public class ProfissionaisDAO {
 				
 				profissionais.add(profissional);
 			}
-		}catch(Exception e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					if(rset!=null) {
-						rset.close();
-					}
-					if(pstm!=null) {
-						pstm.close();
-					}
-					if(conn!=null) {
-						conn.close();
-					}
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-			return profissionais;
+			rset.close();
+            pstm.close();
+		}catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return profissionais;
+	}
+	
+	public void update(String colunaUpdate, String novoValor, String colunaWhere, String valorWhere) {
+		String sql = "UPDATE cadastro_profissionais" + " SET " + colunaUpdate + " = '" + novoValor + "'" + " WHERE "
+				+ colunaWhere + " = '" + valorWhere + "'";
+				
+		try {
+			Connection conn = ConnectionFactory.createConnectionToMySQL();
+			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+	public void delete(String colunaWhere, String valorWhere) {
+		String sql = "DELETE FROM  cadastro_profissionais " + " WHERE " + colunaWhere + " = '" + valorWhere + "'";
+
+		try {
+			Connection conn = ConnectionFactory.createConnectionToMySQL();
+			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 
 	
 
-	

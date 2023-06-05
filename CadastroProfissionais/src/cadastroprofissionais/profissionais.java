@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.border.MatteBorder;
 
 public class profissionais {
 
@@ -85,7 +86,8 @@ public class profissionais {
 			pst = con.prepareStatement("select id, apelido from cadastro_profissionais");
 			rs = pst.executeQuery();
 			tabela.setModel(DbUtils.resultSetToTableModel(rs));
-			//**DbUtils = O rs2xml.jar é uma biblioteca Java que fornece recursos para facilitar a exibição de dados de um ResultSet**//
+			// **DbUtils = O rs2xml.jar é uma biblioteca Java que fornece recursos para
+			// facilitar a exibição de dados de um ResultSet**//
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +111,7 @@ public class profissionais {
 		panel_dados.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Dados",
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_dados.setBounds(10, 57, 404, 384);
+		panel_dados.setBounds(10, 57, 408, 384);
 		frame.getContentPane().add(panel_dados);
 		panel_dados.setLayout(null);
 
@@ -247,7 +249,7 @@ public class profissionais {
 		lblLabelID.setBounds(64, 38, 36, 18);
 		lblLabelID.setFont(new Font("Arial", Font.BOLD, 15));
 		panel.add(lblLabelID);
-		
+
 		// **Evento para localizar id do banco e usuários**//
 		textIDNome = new JTextField();
 		textIDNome.setColumns(10);
@@ -314,7 +316,6 @@ public class profissionais {
 			}
 		});
 
-
 		// **Evento para limpar campos da interface**//
 		JButton btnButtonLimpar = new JButton("Limpar");
 		btnButtonLimpar.setBounds(390, 568, 114, 23);
@@ -338,7 +339,7 @@ public class profissionais {
 				textNomeCompleto.requestFocus();
 			}
 		});
-		
+
 		// **Evento para adcionar usuários na base de dados**//
 		JButton btnButtonSave = new JButton("Novo");
 		btnButtonSave.setBounds(89, 568, 114, 23);
@@ -399,7 +400,7 @@ public class profissionais {
 
 			}
 		});
-		
+
 		// **Evento para alterar dados dos usuários cadastrados na base de dados**//
 		JButton btnButtonAlterar = new JButton("Alterar");
 		btnButtonAlterar.setBounds(238, 568, 114, 23);
@@ -465,7 +466,7 @@ public class profissionais {
 
 			}
 		});
-		
+
 		// **Evento para deletar um id da base de dados**//
 		JButton btnButtonDel = new JButton("Deletar");
 		btnButtonDel.setBounds(552, 568, 114, 23);
@@ -502,6 +503,6 @@ public class profissionais {
 				}
 			}
 		});
-		
+
 	}
 }

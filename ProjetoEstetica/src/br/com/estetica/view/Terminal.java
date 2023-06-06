@@ -45,16 +45,7 @@ public class Terminal {
 			break;
 
 		}
-		case 2: {
-			// visualizacao de todos registros
-			String celular = JOptionPane.showInputDialog("digite o celular");
-			for (InfoClients c : clients.getClientes(celular)) {
-				JOptionPane.showMessageDialog(null, "Cliente: " + c.getNomeCompleto());
-			}
-			break;
-
-		}
-
+	
 		case 3: {
 			// alterar dados
 			String campAleterar = JOptionPane.showInputDialog("Digite o que deseja mudar: ");

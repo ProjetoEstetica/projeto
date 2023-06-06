@@ -12,6 +12,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import br.com.estetica.model.InfoClients;
 import br.com.factory.ConnectionFactory;
+import net.proteanit.sql.DbUtils;
 
 public class ClientesDAO {
 	// Lugar para fazer o crud
@@ -63,53 +64,7 @@ public class ClientesDAO {
 		}
 	}
 
-	public List<InfoClients> getClientes( String valor) {
-        String sql = "SELECT * FROM cadastro_clientes WHERE celular = ?";
-        List<InfoClients> cliente = new ArrayList<InfoClients>();
-        
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rset = null;
-		
-		try  {
-			conn = ConnectionFactory.createConnectionToMySQL();
-            pstm = (PreparedStatement) conn.prepareStatement(sql);
-            
-            pstm.setString(1, valor);
-
-            rset = pstm.executeQuery();
-
-            while (rset.next()) {
-            	InfoClients clientesInfo = new InfoClients();
-
-				// recuperar o nome
-				clientesInfo.setNomeCompleto(rset.getString("nome_completo"));
-				// apelido
-				clientesInfo.setApelido(rset.getString("apelido"));
-				clientesInfo.setCelular(rset.getString("celular"));
-				clientesInfo.setAniversario(rset.getString("aniversario"));
-				clientesInfo.setCep(rset.getString("cep"));
-				clientesInfo.setRua(rset.getString("rua"));
-				clientesInfo.setNum(rset.getInt("numero"));
-				clientesInfo.setComp(rset.getString("comp"));
-				clientesInfo.setBairro(rset.getString("bairro"));
-				clientesInfo.setCidade(rset.getString("cidade"));
-				clientesInfo.setEstado(rset.getString("estado"));
-
-				cliente.add(clientesInfo);
-            }
-
-            rset.close();
-            pstm.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cliente;
-	}
-		
+	
 	
 
 	public void update(String colunaUpdate, String novoValor, String colunaWhere, String valorWhere) {

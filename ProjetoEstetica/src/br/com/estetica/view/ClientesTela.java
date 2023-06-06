@@ -237,23 +237,79 @@ public class ClientesTela {
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		textLocalizar = new JTextField();
-		textLocalizar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-		});
-		textLocalizar.setBounds(81, 23, 182, 20);
-		panel_2.add(textLocalizar);
-		textLocalizar.setColumns(10);
-		
 		JLabel lblLocNome = new JLabel("Nome:");
 		lblLocNome.setFont(new Font("Arial", Font.PLAIN, 15));
 		lblLocNome.setBounds(10, 26, 61, 17);
 		panel_2.add(lblLocNome);
 		
-		// botao de adicionar as linhas
-		JButton btnNovo = new JButton("Novo");
+		// mostrando info nas posicoes
+		textLocalizar = new JTextField();
+		textLocalizar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+
+					String id = textLocalizar.getText();
+					Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(
+							"SELECT nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado from cadastro_clientes WHERE id = ?");
+					pst.setString(1, id);
+					ResultSet rs = pst.executeQuery();
+
+					if (rs.next() == true) {
+
+						String nomeCompleto = rs.getString(1);
+						String apelido = rs.getString(2);
+						String celular = rs.getString(3);
+						String aniversario = rs.getString(4);
+						String cep = rs.getString(5);
+						String rua = rs.getString(6);
+						String num = rs.getString(7);
+						String comp = rs.getString(8);
+						String bairro = rs.getString(9);
+						String cidade = rs.getString(10);
+						String estado = rs.getString(11);
+
+						textNomeCompleto.setText(nomeCompleto);
+						textNomeApelido.setText(apelido);
+						textCel.setText(celular);
+						textAniver.setText(aniversario);
+						textCep.setText(cep);
+						textRua.setText(rua);
+						textNum.setText(num);
+						textComp.setText(comp);
+						textBairro.setText(bairro);
+						textCidade.setText(cidade);
+						textEstado.setText(estado);
+
+					} else {
+						textNomeCompleto.setText("");
+						textNomeApelido.setText("");
+						textCel.setText("");
+						textAniver.setText("");
+						textCep.setText("");
+						textRua.setText("");
+						textNum.setText("");
+						textComp.setText("");
+						textBairro.setText("");
+						textCidade.setText("");
+						textEstado.setText("");
+					}
+
+				}
+
+				catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+
+			}
+		});
+		textLocalizar.setBounds(81, 23, 182, 20);
+		panel_2.add(textLocalizar);
+		textLocalizar.setColumns(10);
+
+		//adicionar as registro
+		JButton btnNovo = new JButton("Cadastrar");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nomeCompleto = textNomeCompleto.getText();
@@ -289,7 +345,39 @@ public class ClientesTela {
 		btnNovo.setBounds(128, 536, 115, 36);
 		frame.getContentPane().add(btnNovo);
 		
+		// alterar registro
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String nomeCompleto = textNomeCompleto.getText();
+				String apelido = textNomeApelido.getText();
+				String aniversario = textAniver.getText();
+				String celular = textCel.getText();
+				String cep = textCep.getText();
+				String rua = textRua.getText();
+				String comp = textComp.getText();
+				int num = Integer.parseInt(textNum.getText());
+				String bairro = textBairro.getText();
+				String cidade = textCidade.getText();
+				String estado = textEstado.getText();
+				
+				exec.setNomeCompleto(nomeCompleto);
+				exec.setApelido(apelido);
+				exec.setCelular(celular);
+				exec.setCep(cep);
+				exec.setRua(rua);
+				exec.setComp(comp);
+				exec.setBairro(bairro);
+				exec.setCidade(cidade);
+				exec.setEstado(estado);
+				exec.setNum(num);
+				exec.setAniversario(aniversario);
+
+				clientsDB.update(exec, textLocalizar.getText());
+				tableLoad();
+			}
+		});
 		btnAlterar.setBounds(266, 536, 115, 36);
 		frame.getContentPane().add(btnAlterar);
 		
@@ -317,6 +405,25 @@ public class ClientesTela {
 		frame.getContentPane().add(btnLimpar);
 		
 		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clientsDB.delete(textLocalizar.getText());
+				tableLoad();
+				
+				//limpando campos
+				textNomeCompleto.setText("");
+				textNomeApelido.setText("");
+				textCel.setText("");
+				textAniver.setText("");
+				textCep.setText("");
+				textRua.setText("");
+				textNum.setText("");
+				textComp.setText("");
+				textBairro.setText("");
+				textCidade.setText("");
+				textEstado.setText("");
+			}
+		});
 		btnDeletar.setBounds(551, 536, 115, 36);
 		frame.getContentPane().add(btnDeletar);
 	}

@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.sql.DriverManager;
 import java.sql.Statement;
 
@@ -64,34 +67,74 @@ public class ClientesDAO {
 		}
 	}
 
-	
-	
+	public void update(InfoClients client, String id) {
+		String update =  "UPDATE cadastro_clientes set nome_completo = ?, apelido = ?, celular = ?, aniversario = ?, cep = ?, rua = ?, numero = ?, comp = ?, bairro = ?, cidade = ?, estado = ? where id = ?";
 
-	public void update(String colunaUpdate, String novoValor, String colunaWhere, String valorWhere) {
-		String sql = "UPDATE cadastro_clientes" + " SET " + colunaUpdate + " = '" + novoValor + "'" + " WHERE "
-				+ colunaWhere + " = '" + valorWhere + "'";
+		Connection conn = null;
+		PreparedStatement pstm = null;
 
 		try {
-			Connection conn = ConnectionFactory.createConnectionToMySQL();
-			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(update);
+			pstm.setString(1, client.getNomeCompleto());
+			pstm.setString(2, client.getApelido());
+			pstm.setString(3, client.getCelular());
+			pstm.setString(4, client.getAniversario());
+			pstm.setString(5, client.getCep());
+			pstm.setString(6, client.getRua());
+			pstm.setInt(7, client.getNum());
+			pstm.setString(8, client.getComp());
+			pstm.setString(9, client.getBairro());
+			pstm.setString(10, client.getCidade());
+			pstm.setString(11, client.getEstado());
+			pstm.setString(12, id);
+
+			// executando
+
 			pstm.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
 
+		} finally {
+
+			// finalizando o cursor
+			try {
+				if (pstm != null) {
+					pstm.close();
+				} else if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		
+		JOptionPane.showMessageDialog(null, "Cliente Editado!");
+		}
 	}
 
-	public void delete(String colunaWhere, String valorWhere) {
-		String sql = "DELETE FROM  cadastro_clientes " + " WHERE " + colunaWhere + " = '" + valorWhere + "'";
-
+	public void delete(String id) {
+		
+		String deletar = "delete from cadastro_clientes where id =?";
+		Connection conn = null;
+		PreparedStatement pstm = null;
 		try {
-			Connection conn = ConnectionFactory.createConnectionToMySQL();
-			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.execute();
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(deletar);
+			pstm.setString(1, id);
+			pstm.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Cliente Deletado!");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				} else if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}}
 	}
 }

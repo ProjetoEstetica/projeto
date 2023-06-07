@@ -241,7 +241,7 @@ public class ClientesTela {
 		lblLocNome.setFont(new Font("Arial", Font.PLAIN, 15));
 		lblLocNome.setBounds(10, 26, 61, 17);
 		panel_2.add(lblLocNome);
-		
+				
 		// mostrando info nas posicoes
 		textLocalizar = new JTextField();
 		textLocalizar.addKeyListener(new KeyAdapter() {
@@ -339,6 +339,18 @@ public class ClientesTela {
 				clientsDB.save(exec);
 				JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
 				tableLoad();
+				
+				textNomeCompleto.setText("");
+				textNomeApelido.setText("");
+				textCel.setText("");
+				textAniver.setText("");
+				textCep.setText("");
+				textRua.setText("");
+				textNum.setText("");
+				textComp.setText("");
+				textBairro.setText("");
+				textCidade.setText("");
+				textEstado.setText("");
 				
 			}
 		});

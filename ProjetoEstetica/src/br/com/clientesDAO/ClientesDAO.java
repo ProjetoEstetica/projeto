@@ -37,14 +37,28 @@ public class ClientesDAO {
 			pstm.setString(1, client.getNomeCompleto());
 			pstm.setString(2, client.getApelido());
 			pstm.setString(3, client.getCelular());
-			pstm.setString(4, client.getAniversario());
-			pstm.setString(5, client.getCep());
-			pstm.setString(6, client.getRua());
-			pstm.setInt(7, client.getNum());
-			pstm.setString(8, client.getComp());
-			pstm.setString(9, client.getBairro());
-			pstm.setString(10, client.getCidade());
-			pstm.setString(11, client.getEstado());
+			if(client.getAniversario().length() != 10) {
+				JOptionPane.showMessageDialog(null, "Aniversario digitado de maneira incorreta. tente:\n(dd/mm/yyyy)");
+			}else {
+				pstm.setString(4, client.getAniversario());
+				if(client.getCep().length() != 9) {
+					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxx-xxx)");
+				}else {
+					pstm.setString(5, client.getCep());
+					pstm.setString(6, client.getRua());
+					pstm.setInt(7, client.getNum());
+					pstm.setString(8, client.getComp());
+					pstm.setString(9, client.getBairro());
+					pstm.setString(10, client.getCidade());
+					if(client.getEstado().length() == 2) {
+						pstm.setString(11, client.getEstado());
+						JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
+					}else {
+						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
+					}
+				}
+			}
+
 
 			// executando
 
@@ -79,15 +93,28 @@ public class ClientesDAO {
 			pstm.setString(1, client.getNomeCompleto());
 			pstm.setString(2, client.getApelido());
 			pstm.setString(3, client.getCelular());
-			pstm.setString(4, client.getAniversario());
-			pstm.setString(5, client.getCep());
-			pstm.setString(6, client.getRua());
-			pstm.setInt(7, client.getNum());
-			pstm.setString(8, client.getComp());
-			pstm.setString(9, client.getBairro());
-			pstm.setString(10, client.getCidade());
-			pstm.setString(11, client.getEstado());
-			pstm.setString(12, id);
+			if(client.getAniversario().length() != 10) {
+				JOptionPane.showMessageDialog(null, "Aniversario digitado de maneira incorreta. tente:\n(dd/mm/yyyy)");
+			}else {
+				pstm.setString(4, client.getAniversario());
+				if(client.getCep().length() != 9) {
+					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxx-xxx)");
+				}else {
+					pstm.setString(5, client.getCep());
+					pstm.setString(6, client.getRua());
+					pstm.setInt(7, client.getNum());
+					pstm.setString(8, client.getComp());
+					pstm.setString(9, client.getBairro());
+					pstm.setString(10, client.getCidade());
+					if(client.getEstado().length() == 2) {
+						pstm.setString(11, client.getEstado());
+						pstm.setString(12, id);
+						JOptionPane.showMessageDialog(null, "Editado com sucesso");
+					}else {
+						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
+					}
+				}
+			}
 
 			// executando
 
@@ -108,7 +135,6 @@ public class ClientesDAO {
 				e2.printStackTrace();
 			}
 		
-		JOptionPane.showMessageDialog(null, "Cliente Editado!");
 		}
 	}
 

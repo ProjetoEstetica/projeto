@@ -337,20 +337,7 @@ public class ClientesTela {
 				exec.setAniversario(aniversario);
 
 				clientsDB.save(exec);
-				JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
 				tableLoad();
-				
-				textNomeCompleto.setText("");
-				textNomeApelido.setText("");
-				textCel.setText("");
-				textAniver.setText("");
-				textCep.setText("");
-				textRua.setText("");
-				textNum.setText("");
-				textComp.setText("");
-				textBairro.setText("");
-				textCidade.setText("");
-				textEstado.setText("");
 				
 			}
 		});

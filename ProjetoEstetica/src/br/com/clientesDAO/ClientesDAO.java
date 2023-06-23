@@ -14,6 +14,7 @@ import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.estetica.model.InfoClients;
+import br.com.estetica.model.TesteData;
 import br.com.factory.ConnectionFactory;
 import net.proteanit.sql.DbUtils;
 
@@ -37,27 +38,34 @@ public class ClientesDAO {
 			pstm.setString(1, client.getNomeCompleto());
 			pstm.setString(2, client.getApelido());
 			pstm.setString(3, client.getCelular());
-			if(client.getAniversario().length() != 10) {
-				JOptionPane.showMessageDialog(null, "Aniversario digitado de maneira incorreta. tente:\n(dd/mm/yyyy)");
-			}else {
-				pstm.setString(4, client.getAniversario());
-				if(client.getCep().length() != 9) {
-					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxx-xxx)");
-				}else {
-					pstm.setString(5, client.getCep());
-					pstm.setString(6, client.getRua());
-					pstm.setInt(7, client.getNum());
-					pstm.setString(8, client.getComp());
-					pstm.setString(9, client.getBairro());
-					pstm.setString(10, client.getCidade());
-					if(client.getEstado().length() == 2) {
-						pstm.setString(11, client.getEstado());
-						JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
-					}else {
-						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
-					}
-				}
+			TesteData data = new TesteData();
+			data.setData(client.getAniversario());
+			boolean hasError = data.getData(); // Armazena o resultado do método getData()
+
+			if (hasError) {
+			    JOptionPane.showMessageDialog(null, "Tem erro: " + hasError);
+			} else {
+			    JOptionPane.showMessageDialog(null, "Sem erro: " + hasError);
+			    pstm.setString(4, client.getAniversario());
+			    // Restante do código
+			    if (client.getCep().length() != 9) {
+			        JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. Tente: (xxxxx-xxx)");
+			    } else {
+			        pstm.setString(5, client.getCep());
+			        pstm.setString(6, client.getRua());
+			        pstm.setInt(7, client.getNum());
+			        pstm.setString(8, client.getComp());
+			        pstm.setString(9, client.getBairro());
+			        pstm.setString(10, client.getCidade());
+			        if (client.getEstado().length() == 2) {
+			            pstm.setString(11, client.getEstado());
+			            JOptionPane.showMessageDialog(null, "Adicionado com sucesso");
+			        } else {
+			            JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
+			        }
+			    }
 			}
+
 
 
 			// executando

@@ -323,7 +323,7 @@ public class ClientesTela {
 				String bairro = textBairro.getText();
 				String cidade = textCidade.getText();
 				String estado = textEstado.getText();
-
+				
 				exec.setNomeCompleto(nomeCompleto);
 				exec.setApelido(apelido);
 				exec.setCelular(celular);

@@ -13,9 +13,9 @@ import javax.swing.border.TitledBorder;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import br.com.clientesDAO.ClientesDAO;
+import br.com.estetica.clientesDAO.ClientesDAO;
+import br.com.estetica.factory.ConnectionFactory;
 import br.com.estetica.model.InfoClients;
-import br.com.factory.ConnectionFactory;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
@@ -29,7 +29,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import br.com.factory.ConnectionFactory;
 
 public class ClientesTela {
 

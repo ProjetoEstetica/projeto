@@ -3,5 +3,17 @@ create database produtos;
 use produtos;
 
 create table cadastro_produtos(
-produto varchar(350), tipo_produto varchar(150), custo double, proco_venda double, desconto_max double, desconto_promo double, comissao int, desconto_comi varchar(4));
+id INT not null AUTO_INCREMENT PRIMARY KEY,
+produto varchar(350), 
+tipo_produto varchar(150), 
+custo double, 
+proco_venda double, 
+desconto_max double, 
+desconto_promo double, 
+comissao int, 
+desconta_comi varchar(4));
 
+ALTER TABLE cadastro_produtos CHANGE desconto_comi desconta_comi varchar(4);
+
+ 
+select * from cadastro_produtos;

@@ -1,9 +1,10 @@
 package br.com.estetica.model;
 
 public class InfoProdutos {
-	String produto, tipo_produto, descontaComissao;
+	String produto, tipoProduto, descontaComissao;
 	double custo, precoVenda, descontoMax, descontoPromo;
 	int comissao;
+	ValidarNum numero = new ValidarNum();
 	
 	
 	public String getProduto() {
@@ -13,10 +14,10 @@ public class InfoProdutos {
 		this.produto = produto;
 	}
 	public String getTipoProduto() {
-		return tipo_produto;
+		return tipoProduto;
 	}
 	public void setTipo_produto(String tipo_produto) {
-		this.tipo_produto = tipo_produto;
+		this.tipoProduto = tipo_produto;
 	}
 	public String getDescontaComissao() {
 		return descontaComissao;
@@ -27,26 +28,30 @@ public class InfoProdutos {
 	public double getCusto() {
 		return custo;
 	}
-	public void setCusto(double custo) {
-		this.custo = custo;
+	public void setCusto(String custo) {
+		numero.setNumero(custo);
+		this.custo = numero.getNumero();
 	}
 	public double getPrecoVenda() {
 		return precoVenda;
 	}
-	public void setPrecoVenda(double precoVenda) {
-		this.precoVenda = precoVenda;
+	public void setPrecoVenda(String precoVenda) {
+		numero.setNumero(precoVenda);
+		this.precoVenda = numero.getNumero();
 	}
 	public double getDescontoMax() {
 		return descontoMax;
 	}
-	public void setDescontoMax(double descontoMax) {
-		this.descontoMax = descontoMax;
+	public void setDescontoMax(String descontoMax) {
+		numero.setNumero(descontoMax);
+		this.descontoMax = numero.getNumero();
 	}
 	public double getDescontoPromo() {
 		return descontoPromo;
 	}
-	public void setDescontoPromo(double descontoPromo) {
-		this.descontoPromo = descontoPromo;
+	public void setDescontoPromo(String descontoPromo) {
+		numero.setNumero(descontoPromo);
+		this.descontoPromo = numero.getNumero();
 	}
 	public int getComissao() {
 		return comissao;

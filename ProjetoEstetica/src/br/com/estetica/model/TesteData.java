@@ -20,8 +20,11 @@ public class TesteData {
 	}
 
 	public boolean getData() {
+		if (!data.contains("/")) {
+			JOptionPane.showMessageDialog(null, "a data nao contem /");
+			existeErro = true;
+		}
 		String[] divisao = data.split("/");
-
 		int dia = Integer.parseInt(divisao[0]);
 		int mes = Integer.parseInt(divisao[1]);
 		int ano = Integer.parseInt(divisao[2]);

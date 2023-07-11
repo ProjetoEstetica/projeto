@@ -89,8 +89,8 @@ public class ClientesDAO {
 		}
 	}
 
-	public void update(InfoClients client, String id) {
-		String update =  "UPDATE cadastro_clientes set nome_completo = ?, apelido = ?, celular = ?, aniversario = ?, cep = ?, rua = ?, numero = ?, comp = ?, bairro = ?, cidade = ?, estado = ? where id = ?";
+	public void update(InfoClients client, String nomeCompleto) {
+		String update =  "UPDATE cadastro_clientes set nome_completo = ?, apelido = ?, celular = ?, aniversario = ?, cep = ?, rua = ?, numero = ?, comp = ?, bairro = ?, cidade = ?, estado = ? where nome_completo = ?";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -116,7 +116,7 @@ public class ClientesDAO {
 					pstm.setString(10, client.getCidade());
 					if(client.getEstado().length() == 2) {
 						pstm.setString(11, client.getEstado());
-						pstm.setString(12, id);
+						pstm.setString(12, nomeCompleto);
 						JOptionPane.showMessageDialog(null, "Editado com sucesso");
 					}else {
 						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
@@ -146,15 +146,15 @@ public class ClientesDAO {
 		}
 	}
 
-	public void delete(String id) {
+	public void delete(String nomeCompleto) {
 		
-		String deletar = "delete from cadastro_clientes where id =?";
+		String deletar = "delete from cadastro_clientes where nome_completo =?";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(deletar);
-			pstm.setString(1, id);
+			pstm.setString(1, nomeCompleto);
 			pstm.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Cliente Deletado!");
 		} catch (Exception e) {

@@ -1,5 +1,6 @@
 package br.com.estetica.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.sql.*;
 import javax.swing.JFrame;
@@ -9,6 +10,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -30,7 +33,8 @@ import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ClientesTela {
+
+public class ClientesTelaTestes {
 
 	private JFrame frame;
 	private JTextField textNomeApelido;
@@ -54,7 +58,7 @@ public class ClientesTela {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClientesTela window = new ClientesTela();
+					ClientesTelaTestes window = new ClientesTelaTestes();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,35 +70,40 @@ public class ClientesTela {
 	/**
 	 * Create the application.
 	 */
-	public ClientesTela() {
+	public ClientesTelaTestes() {
 		initialize();
 		tableLoad();
+		
 	}
-	
+
 	public void tableLoad() {
-		try {		
-			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
-			PreparedStatement pst = (PreparedStatement) con.prepareStatement("select id, apelido from cadastro_clientes");
-			ResultSet rs = pst.executeQuery();
-			tabela.setModel(DbUtils.resultSetToTableModel(rs));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement("SELECT nome_completo FROM cadastro_clientes");
+            ResultSet rs = pst.executeQuery();
+            tabela.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		//importando as config do banco
+		ClientesDAO clienteDB = new ClientesDAO();
+		// info dos clientes
+		InfoClients exec = new InfoClients();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 641);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Clientes");
+		JLabel lblNewLabel = new JLabel("Profissionais");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblNewLabel.setBounds(370, 11, 70, 31);
+		lblNewLabel.setBounds(361, 11, 115, 31);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
@@ -118,13 +127,13 @@ public class ClientesTela {
 		LblCelular.setBounds(10, 82, 106, 18);
 		panel.add(LblCelular);
 		
-		JLabel LblAniversario = new JLabel("Aniversario:");
+		JLabel LblAniversario = new JLabel("Aniversário:");
 		LblAniversario.setFont(new Font("Arial", Font.PLAIN, 15));
 		LblAniversario.setBounds(10, 111, 106, 18);
 		panel.add(LblAniversario);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Endereco", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Endereço", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(10, 144, 377, 230);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
@@ -225,35 +234,185 @@ public class ClientesTela {
 		
 		tabela = new JTable();
 		scrollPane.setViewportView(tabela);
+
+
+		// Adicione um ouvinte de seleção à tabela
+		tabela.getSelectionModel().addListSelectionListener(e -> {
+		    // Verifique se alguma linha está selecionada
+		    if (tabela.getSelectedRow() != -1) {
+		        // Obtenha o valor da coluna "nome_completo" da linha selecionada
+		        String nomeCompleto = tabela.getValueAt(tabela.getSelectedRow(), 0).toString();
+
+		        // Use o valor obtido para buscar as informações correspondentes no banco de dados
+		        // e definir os campos de texto
+		        try {
+		            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
+		            PreparedStatement pst = (PreparedStatement) con.prepareStatement("SELECT * FROM cadastro_clientes WHERE nome_completo = ?");
+		            pst.setString(1, nomeCompleto);
+		            ResultSet rs = pst.executeQuery();
+
+		            // Verifique se o resultado contém dados
+		            if (rs.next()) {
+		                textNomeCompleto.setText(rs.getString("nome_completo"));
+		                textNomeApelido.setText(rs.getString("apelido"));
+		                textCel.setText(rs.getString("celular"));
+		                textAniver.setText(rs.getString("aniversario"));
+		                textCep.setText(rs.getString("cep"));
+		                textRua.setText(rs.getString("rua"));
+		                textNum.setText(rs.getString("numero"));
+		                textComp.setText(rs.getString("comp"));
+		                textBairro.setText(rs.getString("bairro"));
+		                textCidade.setText(rs.getString("cidade"));
+		                textEstado.setText(rs.getString("estado"));
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		
+
+		//adicionar as registro
+		JButton btnNovo = new JButton("Cadastrar");
+		btnNovo.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomeCompleto = textNomeCompleto.getText();
+				String apelido = textNomeApelido.getText();
+				String aniversario = textAniver.getText();
+				String celular = textCel.getText();
+				String cep = textCep.getText();
+				String rua = textRua.getText();
+				String comp = textComp.getText();
+				int num = Integer.parseInt(textNum.getText());
+				String bairro = textBairro.getText();
+				String cidade = textCidade.getText();
+				String estado = textEstado.getText();
+
+				exec.setNomeCompleto(nomeCompleto);
+				exec.setApelido(apelido);
+				exec.setCelular(celular);
+				exec.setCep(cep);
+				exec.setRua(rua);
+				exec.setComp(comp);
+				exec.setBairro(bairro);
+				exec.setCidade(cidade);
+				exec.setEstado(estado);
+				exec.setNum(num);
+				exec.setAniversario(aniversario);
+
+				clienteDB.save(exec);
+				tableLoad();
+				
+			}
+		});
+		btnNovo.setBounds(126, 555, 115, 36);
+		frame.getContentPane().add(btnNovo);
+		
+		// alterar registro
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String nomeCompleto = textNomeCompleto.getText();
+				String apelido = textNomeApelido.getText();
+				String aniversario = textAniver.getText();
+				String celular = textCel.getText();
+				String cep = textCep.getText();
+				String rua = textRua.getText();
+				String comp = textComp.getText();
+				int num = Integer.parseInt(textNum.getText());
+				String bairro = textBairro.getText();
+				String cidade = textCidade.getText();
+				String estado = textEstado.getText();
+				
+				exec.setNomeCompleto(nomeCompleto);
+				exec.setApelido(apelido);
+				exec.setCelular(celular);
+				exec.setCep(cep);
+				exec.setRua(rua);
+				exec.setComp(comp);
+				exec.setBairro(bairro);
+				exec.setCidade(cidade);
+				exec.setEstado(estado);
+				exec.setNum(num);
+				exec.setAniversario(aniversario);
+
+				clienteDB.update(exec, textLocalizar.getText());
+				tableLoad();
+			}
+		});
+		btnAlterar.setBounds(265, 555, 115, 36);
+		frame.getContentPane().add(btnAlterar);
+		
+		// botao de limpar linhas
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textNomeCompleto.setText("");
+				textNomeApelido.setText("");
+				textCel.setText("");
+				textAniver.setText("");
+				textCep.setText("");
+				textRua.setText("");
+				textNum.setText("");
+				textComp.setText("");
+				textBairro.setText("");
+				textCidade.setText("");
+				textEstado.setText("");
+
+				textNomeCompleto.requestFocus();
+				
+			}
+		});
+		btnLimpar.setBounds(416, 555, 115, 36);
+		frame.getContentPane().add(btnLimpar);
+		
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clienteDB.delete(textLocalizar.getText());
+			
+				//limpando campos
+				textNomeCompleto.setText("");
+				textNomeApelido.setText("");
+				textCel.setText("");
+				textAniver.setText("");
+				textCep.setText("");
+				textRua.setText("");
+				textNum.setText("");
+				textComp.setText("");
+				textBairro.setText("");
+				textCidade.setText("");
+				textEstado.setText("");
+				
+				tableLoad();
+			}
+		});
+		btnDeletar.setBounds(549, 555, 115, 36);
+		frame.getContentPane().add(btnDeletar);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setForeground(new Color(0, 0, 0));
 		panel_2.setBorder(new TitledBorder(null, "Localizar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(266, 444, 273, 65);
+		panel_2.setBounds(235, 444, 304, 71);
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblLocNome = new JLabel("Nome:");
-		lblLocNome.setFont(new Font("Arial", Font.PLAIN, 15));
-		lblLocNome.setBounds(10, 26, 61, 17);
-		panel_2.add(lblLocNome);
-		
-		//importando as config do banco
-		ClientesDAO clientsDB = new ClientesDAO();
-		// info dos clientes
-		InfoClients exec = new InfoClients();
-		
-		// mostrando info nas posicoes
 		textLocalizar = new JTextField();
 		textLocalizar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
 
-					String id = textLocalizar.getText();
+					String nome_completo = textLocalizar.getText();
 					Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
 					PreparedStatement pst = (PreparedStatement) con.prepareStatement(
-							"SELECT nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado from cadastro_clientes WHERE id = ?");
-					pst.setString(1, id);
+							"SELECT nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado from cadastro_clientes WHERE nome_completo = ?");
+					pst.setString(1, nome_completo);
 					ResultSet rs = pst.executeQuery();
 
 					if (rs.next() == true) {
@@ -301,145 +460,53 @@ public class ClientesTela {
 				catch (SQLException ex) {
 					ex.printStackTrace();
 				}
-
 			}
 		});
-		textLocalizar.setBounds(81, 23, 182, 20);
+		textLocalizar.setBounds(72, 29, 207, 23);
 		panel_2.add(textLocalizar);
 		textLocalizar.setColumns(10);
-
-		//adicionar as registro
-		JButton btnNovo = new JButton("Cadastrar");
-		btnNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nomeCompleto = textNomeCompleto.getText();
-				String apelido = textNomeApelido.getText();
-				String aniversario = textAniver.getText();
-				String celular = textCel.getText();
-				String cep = textCep.getText();
-				String rua = textRua.getText();
-				String comp = textComp.getText();
-				int num = Integer.parseInt(textNum.getText());
-				String bairro = textBairro.getText();
-				String cidade = textCidade.getText();
-				String estado = textEstado.getText();
-				
-				exec.setNomeCompleto(nomeCompleto);
-				exec.setApelido(apelido);
-				exec.setCelular(celular);
-				exec.setCep(cep);
-				exec.setRua(rua);
-				exec.setComp(comp);
-				exec.setBairro(bairro);
-				exec.setCidade(cidade);
-				exec.setEstado(estado);
-				exec.setNum(num);
-				exec.setAniversario(aniversario);
-
-				clientsDB.save(exec);
-				tableLoad();
-				
-			}
-		});
-		btnNovo.setBounds(128, 536, 115, 36);
-		frame.getContentPane().add(btnNovo);
 		
-		// alterar registro
-		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String nomeCompleto = textNomeCompleto.getText();
-				String apelido = textNomeApelido.getText();
-				String aniversario = textAniver.getText();
-				String celular = textCel.getText();
-				String cep = textCep.getText();
-				String rua = textRua.getText();
-				String comp = textComp.getText();
-				int num = Integer.parseInt(textNum.getText());
-				String bairro = textBairro.getText();
-				String cidade = textCidade.getText();
-				String estado = textEstado.getText();
-				
-				exec.setNomeCompleto(nomeCompleto);
-				exec.setApelido(apelido);
-				exec.setCelular(celular);
-				exec.setCep(cep);
-				exec.setRua(rua);
-				exec.setComp(comp);
-				exec.setBairro(bairro);
-				exec.setCidade(cidade);
-				exec.setEstado(estado);
-				exec.setNum(num);
-				exec.setAniversario(aniversario);
-
-				clientsDB.update(exec, textLocalizar.getText());
-				tableLoad();
-			}
-		});
-		btnAlterar.setBounds(266, 536, 115, 36);
-		frame.getContentPane().add(btnAlterar);
+		JLabel lblNome = new JLabel("Nome :");
+		lblNome.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNome.setBounds(16, 31, 61, 14);
+		panel_2.add(lblNome);
 		
-		// botao de limpar linhas
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textNomeCompleto.setText("");
-				textNomeApelido.setText("");
-				textCel.setText("");
-				textAniver.setText("");
-				textCep.setText("");
-				textRua.setText("");
-				textNum.setText("");
-				textComp.setText("");
-				textBairro.setText("");
-				textCidade.setText("");
-				textEstado.setText("");
+		// Adicione o DocumentListener ao textLocalizar para filtrar os resultados da tabela em tempo real
+        textLocalizar.getDocument().addDocumentListener(new DocumentListener() {
+        	
+        	
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterTable();
+            }
 
-				textNomeCompleto.requestFocus();
-				
-			}
-		});
-		btnLimpar.setBounds(405, 536, 115, 36);
-		frame.getContentPane().add(btnLimpar);
-		
-		JButton btnDeletar = new JButton("Deletar");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clientsDB.delete(textLocalizar.getText());
-				tableLoad();
-				
-				//limpando campos
-				textNomeCompleto.setText("");
-				textNomeApelido.setText("");
-				textCel.setText("");
-				textAniver.setText("");
-				textCep.setText("");
-				textRua.setText("");
-				textNum.setText("");
-				textComp.setText("");
-				textBairro.setText("");
-				textCidade.setText("");
-				textEstado.setText("");
-			}
-		});
-		btnDeletar.setBounds(551, 536, 115, 36);
-		frame.getContentPane().add(btnDeletar);
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterTable();
+            }
+        });
 	}
-	private void filterTable() {
-        try {
-            String searchTerm = textLocalizar.getText();
-
-            // Consulta SQL para filtrar a tabela com base no nome completo
-            String query = "SELECT nome_completo FROM cadastro_profissionais WHERE nome_completo LIKE ?";
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
-            pst.setString(1, "%" + searchTerm + "%");
-            ResultSet rs = pst.executeQuery();
-            tabela.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         
+        private void filterTable() {
+            try {
+                String searchTerm = textLocalizar.getText();
+
+                // Consulta SQL para filtrar a tabela com base no nome completo
+                String query = "SELECT nome_completo FROM cadastro_clientes WHERE nome_completo LIKE ?";
+                Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/clientes", "root", "");
+                PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
+                pst.setString(1, "%" + searchTerm + "%");
+                ResultSet rs = pst.executeQuery();
+                tabela.setModel(DbUtils.resultSetToTableModel(rs));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
+	}
 }
-}
+

@@ -46,10 +46,11 @@ public class ClientesDAO {
 			    JOptionPane.showMessageDialog(null, "Tem erro: " + hasError);
 			} else {
 			    JOptionPane.showMessageDialog(null, "Sem erro: " + hasError);
+			    
 			    pstm.setString(4, client.getAniversario());
 			    // Restante do código
-			    if (client.getCep().length() != 9) {
-			        JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. Tente: (xxxxx-xxx)");
+			    if (client.getCep().length() != 8) {
+			        JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. Tente: (xxxxxxxx)");
 			    } else {
 			        pstm.setString(5, client.getCep());
 			        pstm.setString(6, client.getRua());
@@ -105,8 +106,8 @@ public class ClientesDAO {
 				JOptionPane.showMessageDialog(null, "Aniversario digitado de maneira incorreta. tente:\n(dd/mm/yyyy)");
 			}else {
 				pstm.setString(4, client.getAniversario());
-				if(client.getCep().length() != 9) {
-					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxx-xxx)");
+				if(client.getCep().length() != 8) {
+					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxxxxx)");
 				}else {
 					pstm.setString(5, client.getCep());
 					pstm.setString(6, client.getRua());

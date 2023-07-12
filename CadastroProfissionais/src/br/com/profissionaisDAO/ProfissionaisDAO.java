@@ -1,29 +1,20 @@
 package br.com.profissionaisDAO;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JOptionPane;
-
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
-
-
 import br.com.estetica.model.InfoProfissionais;
+import br.com.estetica.model.TesteData;
 import br.com.factory.ConnectionFactory;
-import net.proteanit.sql.DbUtils;
 
 public class ProfissionaisDAO {
 	// Lugar para fazer o crud
 
 	public void save(InfoProfissionais prof) {
-		String insert = "INSERT into cadastro_profissionais(nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado) values(?,?,?,?,?,?,?,?,?,?,?)";
+		String insert = "insert into cadastro_profissionais(nome_completo, apelido, celular, aniversario, cep, rua, numero, comp, bairro, cidade, estado) values(?,?,?,?,?,?,?,?,?,?,?)";
 
 		Connection conn = null;
+
 		// prepara estrutura para executar
 		PreparedStatement pstm = null;
 
@@ -36,16 +27,31 @@ public class ProfissionaisDAO {
 			pstm.setString(1, prof.getNomeCompleto());
 			pstm.setString(2, prof.getApelido());
 			pstm.setString(3, prof.getCelular());
-			pstm.setString(4, prof.getAniversario());
-			pstm.setString(5, prof.getCep());
-			pstm.setString(6, prof.getRua());
-			pstm.setInt(7, prof.getNum());
-			pstm.setString(8, prof.getComp());
-			pstm.setString(9, prof.getBairro());
-			pstm.setString(10, prof.getCidade());
-			pstm.setString(11, prof.getEstado());
+			TesteData data = new TesteData();
+			data.setData(prof.getAniversario());
+			boolean hasError = data.getData(); // Armazena o resultado do método getData()
 
-			// executando
+			if (hasError) {
+			} else {
+				pstm.setString(4, prof.getAniversario());
+				// Restante do código
+				if (prof.getCep().length() != 8) {
+					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. Tente: (xxxxxxxx)");
+				} else {
+					pstm.setString(5, prof.getCep());
+					pstm.setString(6, prof.getRua());
+					pstm.setInt(7, prof.getNum());
+					pstm.setString(8, prof.getComp());
+					pstm.setString(9, prof.getBairro());
+					pstm.setString(10, prof.getCidade());
+					if (prof.getEstado().length() == 2) {
+						pstm.setString(11, prof.getEstado());
+						JOptionPane.showMessageDialog(null, "Profissional adicionado com sucesso!");
+					} else {
+						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
+					}
+				}
+			}
 
 			pstm.execute();
 		} catch (Exception e) {
@@ -66,8 +72,8 @@ public class ProfissionaisDAO {
 		}
 	}
 
-	public void update(InfoProfissionais prof, String id) {
-		String update =  "UPDATE cadastro_profissionais set nome_completo = ?, apelido = ?, celular = ?, aniversario = ?, cep = ?, rua = ?, numero = ?, comp = ?, bairro = ?, cidade = ?, estado = ? where id = ?";
+	public void update(InfoProfissionais prof, String nome_completo) {
+		String update = "UPDATE cadastro_profissionais set nome_completo = ?, apelido = ?, celular = ?, aniversario = ?, cep = ?, rua = ?, numero = ?, comp = ?, bairro = ?, cidade = ?, estado = ? where nome_completo = ?";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -78,15 +84,28 @@ public class ProfissionaisDAO {
 			pstm.setString(1, prof.getNomeCompleto());
 			pstm.setString(2, prof.getApelido());
 			pstm.setString(3, prof.getCelular());
-			pstm.setString(4, prof.getAniversario());
-			pstm.setString(5, prof.getCep());
-			pstm.setString(6, prof.getRua());
-			pstm.setInt(7, prof.getNum());
-			pstm.setString(8, prof.getComp());
-			pstm.setString(9, prof.getBairro());
-			pstm.setString(10, prof.getCidade());
-			pstm.setString(11, prof.getEstado());
-			pstm.setString(12, id);
+			if (prof.getAniversario().length() != 10) {
+				JOptionPane.showMessageDialog(null, "Digite o aniversário desse modelo: tente:\n(dd/mm/yyyy)");
+			} else {
+				pstm.setString(4, prof.getAniversario());
+				if (prof.getCep().length() != 8) {
+					JOptionPane.showMessageDialog(null, "CEP digitado de maneira incorreta. tente:\n(xxxxxxxx)");
+				} else {
+					pstm.setString(5, prof.getCep());
+					pstm.setString(6, prof.getRua());
+					pstm.setInt(7, prof.getNum());
+					pstm.setString(8, prof.getComp());
+					pstm.setString(9, prof.getBairro());
+					pstm.setString(10, prof.getCidade());
+					if (prof.getEstado().length() == 2) {
+						pstm.setString(11, prof.getEstado());
+						pstm.setString(12, nome_completo);
+						JOptionPane.showMessageDialog(null, "Profissional editado com sucesso!");
+					} else {
+						JOptionPane.showMessageDialog(null, "Estado tem menos ou mais que 2 caracteres");
+					}
+				}
+			}
 
 			// executando
 
@@ -106,20 +125,20 @@ public class ProfissionaisDAO {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		
+
 		}
 	}
 
-	public void delete(String id) {
-		
-		String deletar = "DELETE from cadastro_profissionais where id =?";
+	public void delete(String nome_completo) {
+
+		String deletar = "DELETE from cadastro_profissionais where nome_completo = ?";
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(deletar);
-			pstm.setString(1, id);
+			pstm.setString(1, nome_completo);
 			pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,6 +152,7 @@ public class ProfissionaisDAO {
 				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
-			}}
+			}
+		}
 	}
 }

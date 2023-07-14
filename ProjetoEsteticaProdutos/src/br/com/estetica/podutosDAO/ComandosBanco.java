@@ -1,4 +1,4 @@
-package br.com.estetica.clientesDAO;
+package br.com.estetica.podutosDAO;
 
 import java.sql.Connection;
 
@@ -48,10 +48,10 @@ public class ComandosBanco {
 		}
 	}
 
-	public void alterarPordutos(InfoProdutos produtos, String id) {
+	public void alterarPordutos(InfoProdutos produtos, String produto) {
 		String update = "UPDATE cadastro_produtos set produto = ?,"
 				+ " tipo_produto = ?, custo = ?, preco_venda = ?, desconto_max = ?, "
-				+ "desconto_promo = ?, comissao = ?, desconta_comi = ? where id = ?";
+				+ "desconto_promo = ?, comissao = ?, desconta_comi = ? where produto = ?";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -68,7 +68,7 @@ public class ComandosBanco {
 			pstm.setDouble(6, produtos.getDescontoPromo());
 			pstm.setInt(7, produtos.getComissao());
 			pstm.setString(8, produtos.getDescontaComissao());
-			pstm.setString(9, id);
+			pstm.setString(9, produto);
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "alterado com sucesso");
 
@@ -89,15 +89,15 @@ public class ComandosBanco {
 
 	}
 
-	public void deletar(String id) {
-		String deletar = "delete from cadastro_produtos where id =?";
+	public void deletar(String produto) {
+		String deletar = "delete from cadastro_produtos where produto =?";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(deletar);
-			pstm.setString(1, id);
+			pstm.setString(1, produto);
 			pstm.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Cliente Deletado!");
 		} catch (Exception e) {

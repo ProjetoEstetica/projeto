@@ -1,15 +1,20 @@
 package br.com.estetica.view;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
-import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -21,17 +26,22 @@ import br.com.estetica.model.InfoProdutos;
 import br.com.estetica.podutosDAO.ComandosBanco;
 import net.proteanit.sql.DbUtils;
 
-import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ProdutosTela {
+public class ProdutosTelaTestes {
 
 	private JFrame frame;
+	private JTable table;
 	private JTextField textFieldProduto;
 	private JTextField textFieldTipoProduto;
 	private JTextField textFieldCusto;
@@ -40,7 +50,6 @@ public class ProdutosTela {
 	private JTextField textFieldDescPromo;
 	private JTextField textFieldComissao;
 	private JTextField textFieldDescontaComi;
-	private JTable table;
 	private JTextField textFieldLocalizar;
 
 	/**
@@ -50,7 +59,7 @@ public class ProdutosTela {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProdutosTela window = new ProdutosTela();
+					ProdutosTelaTestes window = new ProdutosTelaTestes();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,18 +71,18 @@ public class ProdutosTela {
 	/**
 	 * Create the application.
 	 */
-	public ProdutosTela() {
+	public ProdutosTelaTestes() {
 		initialize();
 		tableLoad();
+
 	}
 
-	// colocando a tabela
 	public void tableLoad() {
 		try {
 			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/produtos", "root",
 					"");
 			PreparedStatement pst = (PreparedStatement) con
-					.prepareStatement("select produto from cadastro_produtos");
+					.prepareStatement("SELECT produto FROM cadastro_produtos");
 			ResultSet rs = pst.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (SQLException e) {
@@ -85,116 +94,155 @@ public class ProdutosTela {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		// importando as config do banco
+		ComandosBanco execBanco = new ComandosBanco();
+		// info dos produtos
+		InfoProdutos execProdutos = new InfoProdutos();
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 641);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel labelProduto = new JLabel("Produto");
-		labelProduto.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelProduto.setBounds(21, 28, 87, 38);
-		frame.getContentPane().add(labelProduto);
+		JLabel lblProdutos = new JLabel("Produtos");
+		lblProdutos.setFont(new Font("Arial", Font.PLAIN, 20));
+		lblProdutos.setBounds(361, 11, 115, 31);
+		frame.getContentPane().add(lblProdutos);
 
-		JLabel labelTipoProduto = new JLabel("Tipo Produto");
-		labelTipoProduto.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelTipoProduto.setBounds(21, 76, 120, 38);
-		frame.getContentPane().add(labelTipoProduto);
+		JPanel panelDados = new JPanel();
+		panelDados.setBorder(new TitledBorder(null, "Dados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDados.setBounds(10, 48, 396, 385);
+		frame.getContentPane().add(panelDados);
+		panelDados.setLayout(null);
 
-		JLabel labelCusto = new JLabel("Custo");
-		labelCusto.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelCusto.setBounds(21, 124, 87, 38);
-		frame.getContentPane().add(labelCusto);
+		JLabel LblTipoProd = new JLabel("Tipo Produto");
+		LblTipoProd.setBounds(10, 66, 116, 18);
+		LblTipoProd.setFont(new Font("Arial", Font.PLAIN, 15));
+		panelDados.add(LblTipoProd);
 
-		JLabel labelPrecoVenda = new JLabel("Preço Venda");
-		labelPrecoVenda.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelPrecoVenda.setBounds(10, 172, 121, 38);
-		frame.getContentPane().add(labelPrecoVenda);
+		JLabel LblNome = new JLabel("Nome");
+		LblNome.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblNome.setBounds(10, 23, 106, 18);
+		panelDados.add(LblNome);
 
-		JLabel labelDescontoMax = new JLabel("Desconto Maximo");
-		labelDescontoMax.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelDescontoMax.setBounds(10, 220, 167, 38);
-		frame.getContentPane().add(labelDescontoMax);
+		JLabel LblCusto = new JLabel("Custo");
+		LblCusto.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblCusto.setBounds(10, 110, 106, 18);
+		panelDados.add(LblCusto);
 
-		JLabel labelDescontoPromo = new JLabel("Desconto Promo");
-		labelDescontoPromo.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelDescontoPromo.setBounds(10, 278, 167, 38);
-		frame.getContentPane().add(labelDescontoPromo);
+		JLabel LblPrecoVenda = new JLabel("Preço Venda");
+		LblPrecoVenda.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblPrecoVenda.setBounds(10, 150, 106, 18);
+		panelDados.add(LblPrecoVenda);
 
-		JLabel labelID = new JLabel("ID");
-		labelID.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelID.setBounds(184, 456, 57, 38);
-		frame.getContentPane().add(labelID);
+		JLabel LblDescMax = new JLabel("Desconto Máximo");
+		LblDescMax.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblDescMax.setBounds(10, 195, 144, 18);
+		panelDados.add(LblDescMax);
 
-		JLabel labelComissao = new JLabel("Comissao");
-		labelComissao.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelComissao.setBounds(10, 334, 167, 38);
-		frame.getContentPane().add(labelComissao);
+		JLabel LblDescPromo = new JLabel("Desconto Promoção");
+		LblDescPromo.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblDescPromo.setBounds(10, 248, 144, 18);
+		panelDados.add(LblDescPromo);
 
-		JLabel labelDescontaComissao = new JLabel("Desconta Comissao?");
-		labelDescontaComissao.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		labelDescontaComissao.setBounds(10, 382, 201, 38);
-		frame.getContentPane().add(labelDescontaComissao);
+		JLabel LblComicao = new JLabel("Comissão");
+		LblComicao.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblComicao.setBounds(10, 292, 144, 18);
+		panelDados.add(LblComicao);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(419, 28, 357, 403);
-		frame.getContentPane().add(scrollPane);
+		JLabel LblDescComi = new JLabel("Desconta Comissão");
+		LblDescComi.setFont(new Font("Arial", Font.PLAIN, 15));
+		LblDescComi.setBounds(10, 333, 144, 18);
+		panelDados.add(LblDescComi);
 
 		textFieldProduto = new JTextField();
-		textFieldProduto.setBounds(118, 35, 174, 33);
-		frame.getContentPane().add(textFieldProduto);
+		textFieldProduto.setBounds(55, 23, 129, 20);
+		panelDados.add(textFieldProduto);
 		textFieldProduto.setColumns(10);
 
 		textFieldTipoProduto = new JTextField();
 		textFieldTipoProduto.setColumns(10);
-		textFieldTipoProduto.setBounds(165, 83, 174, 33);
-		frame.getContentPane().add(textFieldTipoProduto);
+		textFieldTipoProduto.setBounds(102, 66, 129, 20);
+		panelDados.add(textFieldTipoProduto);
 
 		textFieldCusto = new JTextField();
 		textFieldCusto.setColumns(10);
-		textFieldCusto.setBounds(98, 131, 174, 33);
-		frame.getContentPane().add(textFieldCusto);
+		textFieldCusto.setBounds(55, 110, 129, 20);
+		panelDados.add(textFieldCusto);
 
 		textFieldPrecoVenda = new JTextField();
 		textFieldPrecoVenda.setColumns(10);
-		textFieldPrecoVenda.setBounds(141, 179, 174, 33);
-		frame.getContentPane().add(textFieldPrecoVenda);
+		textFieldPrecoVenda.setBounds(102, 150, 129, 20);
+		panelDados.add(textFieldPrecoVenda);
 
 		textFieldDescMax = new JTextField();
 		textFieldDescMax.setColumns(10);
-		textFieldDescMax.setBounds(187, 227, 174, 33);
-		frame.getContentPane().add(textFieldDescMax);
+		textFieldDescMax.setBounds(132, 195, 129, 20);
+		panelDados.add(textFieldDescMax);
 
 		textFieldDescPromo = new JTextField();
 		textFieldDescPromo.setColumns(10);
-		textFieldDescPromo.setBounds(187, 285, 174, 33);
-		frame.getContentPane().add(textFieldDescPromo);
+		textFieldDescPromo.setBounds(153, 248, 129, 20);
+		panelDados.add(textFieldDescPromo);
 
 		textFieldComissao = new JTextField();
 		textFieldComissao.setColumns(10);
-		textFieldComissao.setBounds(118, 339, 174, 33);
-		frame.getContentPane().add(textFieldComissao);
+		textFieldComissao.setBounds(80, 292, 129, 20);
+		panelDados.add(textFieldComissao);
 
 		textFieldDescontaComi = new JTextField();
 		textFieldDescontaComi.setColumns(10);
-		textFieldDescontaComi.setBounds(187, 382, 174, 33);
-		frame.getContentPane().add(textFieldDescontaComi);
+		textFieldDescontaComi.setBounds(153, 333, 129, 20);
+		panelDados.add(textFieldDescontaComi);
 
-		textFieldLocalizar = new JTextField();
-		textFieldLocalizar.setColumns(10);
-		textFieldLocalizar.setBounds(236, 456, 174, 33);
-		frame.getContentPane().add(textFieldLocalizar);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(416, 53, 358, 380);
+		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
-		ComandosBanco execBanco = new ComandosBanco();
-		InfoProdutos execProdutos = new InfoProdutos();
+		// Adicione um ouvinte de seleção à table
+		table.getSelectionModel().addListSelectionListener(e -> {
+			// Verifique se alguma linha está selecionada
+			if (table.getSelectedRow() != -1) {
+				// Obtenha o valor da coluna "produto" da linha selecionada
+				String produto = table.getValueAt(table.getSelectedRow(), 0).toString();
 
-		// adicionando info no banco
-		JButton btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.addActionListener(new ActionListener() {
+				// Use o valor obtido para buscar as informações correspondentes no banco de
+				// dados
+				// e definir os campos de texto
+				try {
+					Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/produtos",
+							"root", "");
+					PreparedStatement pst = (PreparedStatement) con
+							.prepareStatement("SELECT * FROM cadastro_produtos WHERE produto = ?");
+					pst.setString(1, produto);
+					ResultSet rs = pst.executeQuery();
+
+					// Verifique se o resultado contém dados
+					if (rs.next()) {
+						textFieldProduto.setText(rs.getString("produto"));
+						textFieldTipoProduto.setText(rs.getString("tipo_produto"));
+						textFieldCusto.setText(rs.getString("custo"));
+						textFieldPrecoVenda.setText(rs.getString("preco_venda"));
+						textFieldDescMax.setText(rs.getString("desconto_max"));
+						textFieldDescPromo.setText(rs.getString("desconto_promo"));
+						textFieldComissao.setText(rs.getString("comissao"));
+
+					}
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+
+		// adicionar as registro
+		JButton btnNovo = new JButton("Cadastrar");
+		btnNovo.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnNovo.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-
 				String produto = textFieldProduto.getText();
 				String tipoProduto = textFieldTipoProduto.getText();
 				String custo = textFieldCusto.getText();
@@ -218,12 +266,12 @@ public class ProdutosTela {
 
 			}
 		});
-		btnAdicionar.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnAdicionar.setBounds(10, 519, 154, 56);
-		frame.getContentPane().add(btnAdicionar);
+		btnNovo.setBounds(126, 555, 115, 36);
+		frame.getContentPane().add(btnNovo);
 
-		// setar os elementos
+		// alterar registro
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -247,18 +295,16 @@ public class ProdutosTela {
 
 				execBanco.alterarPordutos(execProdutos, textFieldLocalizar.getText());
 				tableLoad();
-
 			}
 		});
-		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnAlterar.setBounds(201, 519, 154, 56);
+		btnAlterar.setBounds(265, 555, 115, 36);
 		frame.getContentPane().add(btnAlterar);
 
-		// limpando campos
+		// botao de limpar linhas
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				textFieldProduto.setText("");
 				textFieldTipoProduto.setText("");
 				textFieldCusto.setText("");
@@ -267,21 +313,21 @@ public class ProdutosTela {
 				textFieldDescPromo.setText("");
 				textFieldComissao.setText("");
 				textFieldDescontaComi.setText("");
+				textFieldLocalizar.setText("");
 
 				textFieldProduto.requestFocus();
+
 			}
 		});
-		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnLimpar.setBounds(384, 519, 154, 56);
+		btnLimpar.setBounds(416, 555, 115, 36);
 		frame.getContentPane().add(btnLimpar);
 
-		// deletando info do banco
+		// botao de deletar
 		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String id = textFieldLocalizar.getText();
-				execBanco.deletar(id);
-				tableLoad();
+				execBanco.deletar(textFieldLocalizar.getText());
 
 				// limpando campos
 				textFieldProduto.setText("");
@@ -293,12 +339,22 @@ public class ProdutosTela {
 				textFieldComissao.setText("");
 				textFieldDescontaComi.setText("");
 
+				tableLoad();
 			}
 		});
-		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnDeletar.setBounds(573, 519, 154, 56);
+		btnDeletar.setBounds(549, 555, 115, 36);
 		frame.getContentPane().add(btnDeletar);
 
+		// painel da aba localizar
+		JPanel panelLocalizar = new JPanel();
+		panelLocalizar.setForeground(new Color(0, 0, 0));
+		panelLocalizar
+				.setBorder(new TitledBorder(null, "Localizar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelLocalizar.setBounds(235, 444, 304, 71);
+		frame.getContentPane().add(panelLocalizar);
+		panelLocalizar.setLayout(null);
+
+		textFieldLocalizar = new JTextField();
 		textFieldLocalizar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -309,7 +365,7 @@ public class ProdutosTela {
 							"root", "");
 					PreparedStatement pst = (PreparedStatement) con
 							.prepareStatement("SELECT * from cadastro_produtos WHERE produto = ?");
-					pst.setString(1,  product);
+					pst.setString(1, product);
 					ResultSet rs = pst.executeQuery();
 
 					if (rs.next() == true) {
@@ -348,9 +404,17 @@ public class ProdutosTela {
 				catch (SQLException ex) {
 					ex.printStackTrace();
 				}
-
 			}
 		});
+		textFieldLocalizar.setBounds(68, 29, 207, 23);
+		panelLocalizar.add(textFieldLocalizar);
+		textFieldLocalizar.setColumns(10);
+
+		JLabel lblNome = new JLabel("Nome :");
+		lblNome.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNome.setBounds(16, 31, 61, 14);
+		panelLocalizar.add(lblNome);
+		
 		// filtro de dados da tabela em tempo real
 		textFieldLocalizar.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -370,24 +434,24 @@ public class ProdutosTela {
 			}
 		});
 
-		// Adcionando ouvinte de seleção à tabela para levar texto para o textField
+		// Adcionando ouvinte de seleção à table para levar texto para o textField
 		table.getSelectionModel().addListSelectionListener(e -> {
 			// Verifique se alguma linha está selecionada
 			if (table.getSelectedRow() != -1) {
 				// Obtenha o valor da coluna "produto" da linha selecionada
-				String nomeCompleto = table.getValueAt(table.getSelectedRow(), 0).toString();
+				String produto = table.getValueAt(table.getSelectedRow(), 0).toString();
 
-				// Use o valor obtido para preencher o campo textLocalizar
-				textFieldLocalizar.setText(nomeCompleto);
+				// Use o valor obtido para preencher o campo textFieldLocalizar
+				textFieldLocalizar.setText(produto);
 			}
 		});
 
-		// Adicione um ouvinte de seleção à tabela
+		// Adicione um ouvinte de seleção à table
 		table.getSelectionModel().addListSelectionListener(e -> {
 			// Verifique se alguma linha está selecionada
 			if (table.getSelectedRow() != -1) {
 				// Obtenha o valor da coluna "produto" da linha selecionada
-				String nomeCompleto = table.getValueAt(table.getSelectedRow(), 0).toString();
+				String produto = table.getValueAt(table.getSelectedRow(), 0).toString();
 
 				// Use o valor obtido para buscar as informações correspondentes no banco de
 				// dados
@@ -397,7 +461,7 @@ public class ProdutosTela {
 							"root", "");
 					PreparedStatement pst = (PreparedStatement) con
 							.prepareStatement("SELECT * FROM cadastro_produtos WHERE produto = ?");
-					pst.setString(1, nomeCompleto);
+					pst.setString(1, produto);
 					ResultSet rs = pst.executeQuery();
 
 					// Verifique se o resultado contém dados
@@ -417,7 +481,7 @@ public class ProdutosTela {
 			}
 		});
 
-		// deixando a tabela imutável
+		// deixando a table imutável
 		DefaultTableModel model = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -429,11 +493,11 @@ public class ProdutosTela {
 
 	}
 
-	// pesquisa o nome digitado na tabela
+	// pesquisa o nome digitado na table
 	private void filterTable() {
 		try {
 			String localizaLetra = textFieldLocalizar.getText();
-			// Consulta SQL para filtrar a tabela com base na inicial do produto
+			// Consulta SQL para filtrar a table com base na inicial do nome completo
 			String query = "SELECT produto FROM cadastro_produtos WHERE produto LIKE ?";
 			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/produtos", "root",
 					"");

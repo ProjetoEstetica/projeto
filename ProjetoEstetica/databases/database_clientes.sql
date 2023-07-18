@@ -9,14 +9,11 @@ create table cadastro_clientes(
 	aniversario varchar(11), 
     cep varchar(50),
 	rua varchar(300),
-	numero int,
+	numero varchar(10),
 	comp varchar(100),
 	bairro varchar(300),
 	cidade varchar(100),
 	estado char(3)
 );
 
-<<<<<<< HEAD:ProjetoEstetica/databases/db_clientes.sql
 select * from cadastro_clientes;
-=======
->>>>>>> main:db_profissionais.sql

@@ -310,7 +310,7 @@ public class ClientesTela {
 				String cep = textCep.getText();
 				String rua = textRua.getText();
 				String comp = textComp.getText();
-				int num = Integer.parseInt(textNum.getText());
+				String num = textNum.getText();
 				String bairro = textBairro.getText();
 				String cidade = textCidade.getText();
 				String estado = textEstado.getText();
@@ -348,7 +348,7 @@ public class ClientesTela {
 				String cep = textCep.getText();
 				String rua = textRua.getText();
 				String comp = textComp.getText();
-				int num = Integer.parseInt(textNum.getText());
+				String num = textNum.getText();
 				String bairro = textBairro.getText();
 				String cidade = textCidade.getText();
 				String estado = textEstado.getText();

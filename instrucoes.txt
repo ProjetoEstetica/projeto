@@ -1,0 +1,57 @@
+Projeto Estética - Freelance
+
+
+Tabela mysql
+
+CadastroClientes: EDUARDO
+* NomeCompleto varchar(300)
+apelido varchar(100)
+celular char(13)
+aniversario (%d%m%a)
+observacao varchar(700)
+cep
+rua varchar(300)
+numero  short
+comp varchar(100)
+bairro varchar(300)
+cidade varchar(100)
+estado char(3)
+
+
+CadastroProfissionais: DIEGO
+* NomeCompleto varchar(300)
+apelido varchar(100)
+celular char(13)
+aniversario (%d%m%a)
+
+
+Endereco {
+* cep
+rua varchar(300)
+numero  short
+comp varchar(100)
+bairro varchar(300)
+cidade varchar(100)
+estado char(3)
+} 
+
+CadastroServicos: FELIPE
+* NomeServico varchar(300)
+categoria varchar(100)
+tipoServico varchar(100)
+custoProd double
+precoVenda double
+Desconto int
+duracaoAproximada int
+
+comissoes {
+* tipo varchar(50) - percentual
+percentComissao - int
+descontarCustoProd bool
+}
+
+
+
+
+
+

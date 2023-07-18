@@ -1,8 +1,7 @@
-package br.com.factory;
+package br.com.estetica.factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.concurrent.ExecutionException;
 
 public class ConnectionFactory {
 	

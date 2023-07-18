@@ -1,13 +1,14 @@
-package br.com.profissionaisDAO;
+package br.com.estetica.profissionaisDAO;
 
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
+
+import br.com.estetica.factory.ConnectionFactory;
 import br.com.estetica.model.InfoProfissionais;
 import br.com.estetica.model.TesteData;
-import br.com.factory.ConnectionFactory;
 
-public class ProfissionaisDAO {
+public class ComandosBancoProfissionais {
 	// Lugar para fazer o crud
 
 	public void save(InfoProfissionais prof) {

@@ -10,9 +10,8 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import br.com.profissionaisDAO.ProfissionaisDAO;
 import br.com.estetica.model.InfoProfissionais;
-import br.com.factory.ConnectionFactory;
+import br.com.estetica.profissionaisDAO.ComandosBancoProfissionais;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
@@ -26,8 +25,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import br.com.factory.ConnectionFactory;
-
 
 public class ProfissionaisTela {
 
@@ -86,7 +83,7 @@ public class ProfissionaisTela {
 	 */
 	private void initialize() {
 		//importando as config do banco
-		ProfissionaisDAO profissionaisDB = new ProfissionaisDAO ();
+		ComandosBancoProfissionais profissionaisDB = new ComandosBancoProfissionais ();
 		// info dos clientes
 		InfoProfissionais exec = new InfoProfissionais ();
 		

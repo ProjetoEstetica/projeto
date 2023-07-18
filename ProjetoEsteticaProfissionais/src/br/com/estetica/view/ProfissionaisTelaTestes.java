@@ -9,8 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import br.com.profissionaisDAO.ProfissionaisDAO;
+
 import br.com.estetica.model.InfoProfissionais;
+import br.com.estetica.profissionaisDAO.ComandosBancoProfissionais;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -84,7 +85,7 @@ public class ProfissionaisTelaTestes {
 	 */
 	private void initialize() {
 		// importando as config do banco
-		ProfissionaisDAO profissionaisDB = new ProfissionaisDAO();
+		ComandosBancoProfissionais profissionaisDB = new ComandosBancoProfissionais();
 		// info dos clientes
 		InfoProfissionais exec = new InfoProfissionais();
 
@@ -522,6 +523,8 @@ public class ProfissionaisTelaTestes {
 
 		// deixando a tabela imutável
 		DefaultTableModel model = new DefaultTableModel() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				// Definindo todas as células como não editáveis
@@ -536,7 +539,7 @@ public class ProfissionaisTelaTestes {
 		try {
 			String localizaLetra = textLocalizar.getText();
 			// Consulta SQL para filtrar a tabela com base na inicial do nome completo
-			String query = "SELECT nome_completo FROM cadastro_profissionais WHERE nome_completo LIKE ?";
+			String query = "SELECT nome_completo FROM cadastro_profissionais WHERE nome_completo LIKE ? ORDER BY nome_completo ASC";
 			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/profissionais",
 					"root", "");
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);

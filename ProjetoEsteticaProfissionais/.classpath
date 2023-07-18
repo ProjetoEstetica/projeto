@@ -6,16 +6,16 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/diego/Desktop/EsteticaProfissionais/CadastroProfissionais/resources/mysql-connector-j-8.0.33.jar">
+	<classpathentry kind="lib" path="C:/Users/diego/Desktop/projeto-diego/CadastroProfissionais/resources/json.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/diego/Desktop/EsteticaProfissionais/CadastroProfissionais/resources/json.jar">
+	<classpathentry kind="lib" path="C:/Users/diego/Desktop/projeto-diego/CadastroProfissionais/resources/mysql-connector-j-8.0.33.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/diego/Desktop/EsteticaProfissionais/CadastroProfissionais/resources/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/diego/Desktop/projeto-diego/CadastroProfissionais/resources/rs2xml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

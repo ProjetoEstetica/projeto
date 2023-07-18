@@ -16,4 +16,7 @@ create table cadastro_clientes(
 	estado char(3)
 );
 
+<<<<<<< HEAD:ProjetoEstetica/databases/db_clientes.sql
 select * from cadastro_clientes;
+=======
+>>>>>>> main:db_profissionais.sql

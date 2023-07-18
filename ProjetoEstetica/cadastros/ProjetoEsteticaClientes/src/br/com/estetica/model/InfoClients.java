@@ -3,7 +3,7 @@ package br.com.estetica.model;
 
 public class InfoClients {
 	private String nomeCompleto, apelido, celular, cep, rua, bairro, cidade, estado, comp;
-	private int num;
+	private String num;
 	private String aniversario;
 	
 	public String getComp() {
@@ -23,11 +23,11 @@ public class InfoClients {
 		this.aniversario = aniversario;
 	}
 
-	public int getNum() {
+	public String getNum() {
 		return num;
 	}
 
-	public void setNum(int num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 

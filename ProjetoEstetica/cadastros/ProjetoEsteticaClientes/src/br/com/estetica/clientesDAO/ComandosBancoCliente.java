@@ -54,7 +54,7 @@ public class ComandosBancoCliente {
 			    } else {
 			        pstm.setString(5, client.getCep());
 			        pstm.setString(6, client.getRua());
-			        pstm.setInt(7, client.getNum());
+			        pstm.setString(7, client.getNum());
 			        pstm.setString(8, client.getComp());
 			        pstm.setString(9, client.getBairro());
 			        pstm.setString(10, client.getCidade());
@@ -111,7 +111,7 @@ public class ComandosBancoCliente {
 				}else {
 					pstm.setString(5, client.getCep());
 					pstm.setString(6, client.getRua());
-					pstm.setInt(7, client.getNum());
+					pstm.setString(7, client.getNum());
 					pstm.setString(8, client.getComp());
 					pstm.setString(9, client.getBairro());
 					pstm.setString(10, client.getCidade());

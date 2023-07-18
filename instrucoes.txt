@@ -8,17 +8,15 @@ CadastroClientes: EDUARDO
 apelido varchar(100)
 celular char(13)
 aniversario (%d%m%a)
-
-
-Endereco {
-* cep
+observacao varchar(700)
+cep
 rua varchar(300)
 numero  short
 comp varchar(100)
 bairro varchar(300)
 cidade varchar(100)
 estado char(3)
-} 
+
 
 CadastroProfissionais: DIEGO
 * NomeCompleto varchar(300)

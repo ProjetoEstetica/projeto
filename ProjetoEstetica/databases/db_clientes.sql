@@ -1,12 +1,12 @@
-create database profissionais;
-use profissionais;
+create database clientes;
+use clientes;
 
-create table cadastro_profissionais(
+create table cadastro_clientes(
 	id int not null auto_increment primary key,
 	nome_completo varchar(300),
     apelido varchar(100),
 	celular char(13),
-	aniversario date, # insert into campo set evento = str_to_date ('31/05/2023', '%d%m%a')
+	aniversario varchar(11), 
     cep varchar(50),
 	rua varchar(300),
 	numero int,
@@ -16,3 +16,7 @@ create table cadastro_profissionais(
 	estado char(3)
 );
 
+<<<<<<< HEAD:ProjetoEstetica/databases/db_clientes.sql
+select * from cadastro_clientes;
+=======
+>>>>>>> main:db_profissionais.sql

@@ -11,6 +11,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/edumb/Desktop/projeto/ProjetoEstetica/resources/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/diego/Desktop/projetoestetica/projeto/ProjetoEstetica/cadastros/ProjetoEsteticaProdutos/resources/json.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/diego/Desktop/projetoestetica/projeto/ProjetoEstetica/cadastros/ProjetoEsteticaProdutos/resources/rs2xml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -110,84 +110,84 @@ public class ProdutosTela {
 		frame.getContentPane().add(panelDados);
 		panelDados.setLayout(null);
 
-		JLabel LblTipoProd = new JLabel("Tipo Produto");
+		JLabel LblTipoProd = new JLabel("Tipo Produto: ");
 		LblTipoProd.setBounds(10, 66, 116, 18);
 		LblTipoProd.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblTipoProd);
 
-		JLabel LblNome = new JLabel("Nome");
-		LblNome.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblNome = new JLabel("Nome: ");
 		LblNome.setBounds(10, 23, 106, 18);
+		LblNome.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblNome);
 
-		JLabel LblCusto = new JLabel("Custo");
-		LblCusto.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblCusto = new JLabel("Custo: ");
 		LblCusto.setBounds(10, 110, 106, 18);
+		LblCusto.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblCusto);
 
-		JLabel LblPrecoVenda = new JLabel("Preço Venda");
-		LblPrecoVenda.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblPrecoVenda = new JLabel("Preço Venda:");
 		LblPrecoVenda.setBounds(10, 150, 106, 18);
+		LblPrecoVenda.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblPrecoVenda);
 
-		JLabel LblDescMax = new JLabel("Desconto Máximo");
-		LblDescMax.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblDescMax = new JLabel("Desconto Máximo:");
 		LblDescMax.setBounds(10, 195, 144, 18);
+		LblDescMax.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblDescMax);
 
-		JLabel LblDescPromo = new JLabel("Desconto Promoção");
-		LblDescPromo.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblDescPromo = new JLabel("Desconto Promoção: ");
 		LblDescPromo.setBounds(10, 248, 144, 18);
+		LblDescPromo.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblDescPromo);
 
-		JLabel LblComicao = new JLabel("Comissão");
-		LblComicao.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblComicao = new JLabel("Comissão: ");
 		LblComicao.setBounds(10, 292, 144, 18);
+		LblComicao.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblComicao);
 
-		JLabel LblDescComi = new JLabel("Desconta Comissão");
-		LblDescComi.setFont(new Font("Arial", Font.PLAIN, 15));
+		JLabel LblDescComi = new JLabel("Desconta Comissão: ");
 		LblDescComi.setBounds(10, 333, 144, 18);
+		LblDescComi.setFont(new Font("Arial", Font.PLAIN, 15));
 		panelDados.add(LblDescComi);
 
 		textFieldProduto = new JTextField();
-		textFieldProduto.setBounds(55, 23, 129, 20);
+		textFieldProduto.setBounds(58, 23, 129, 20);
 		panelDados.add(textFieldProduto);
 		textFieldProduto.setColumns(10);
 
 		textFieldTipoProduto = new JTextField();
-		textFieldTipoProduto.setColumns(10);
 		textFieldTipoProduto.setBounds(102, 66, 129, 20);
+		textFieldTipoProduto.setColumns(10);
 		panelDados.add(textFieldTipoProduto);
 
 		textFieldCusto = new JTextField();
+		textFieldCusto.setBounds(58, 110, 129, 20);
 		textFieldCusto.setColumns(10);
-		textFieldCusto.setBounds(55, 110, 129, 20);
 		panelDados.add(textFieldCusto);
 
 		textFieldPrecoVenda = new JTextField();
-		textFieldPrecoVenda.setColumns(10);
 		textFieldPrecoVenda.setBounds(102, 150, 129, 20);
+		textFieldPrecoVenda.setColumns(10);
 		panelDados.add(textFieldPrecoVenda);
 
 		textFieldDescMax = new JTextField();
+		textFieldDescMax.setBounds(140, 195, 129, 20);
 		textFieldDescMax.setColumns(10);
-		textFieldDescMax.setBounds(132, 195, 129, 20);
 		panelDados.add(textFieldDescMax);
 
 		textFieldDescPromo = new JTextField();
-		textFieldDescPromo.setColumns(10);
 		textFieldDescPromo.setBounds(153, 248, 129, 20);
+		textFieldDescPromo.setColumns(10);
 		panelDados.add(textFieldDescPromo);
 
 		textFieldComissao = new JTextField();
+		textFieldComissao.setBounds(91, 292, 129, 20);
 		textFieldComissao.setColumns(10);
-		textFieldComissao.setBounds(80, 292, 129, 20);
 		panelDados.add(textFieldComissao);
 
 		textFieldDescontaComi = new JTextField();
-		textFieldDescontaComi.setColumns(10);
 		textFieldDescontaComi.setBounds(153, 333, 129, 20);
+		textFieldDescontaComi.setColumns(10);
 		panelDados.add(textFieldDescontaComi);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -401,7 +401,7 @@ public class ProdutosTela {
 				}
 			}
 		});
-		textFieldLocalizar.setBounds(68, 29, 207, 23);
+		textFieldLocalizar.setBounds(73, 29, 207, 23);
 		panelLocalizar.add(textFieldLocalizar);
 		textFieldLocalizar.setColumns(10);
 
